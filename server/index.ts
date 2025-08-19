@@ -31,11 +31,11 @@ export function createServer() {
     });
   });
  
-  app.get("/api/inventory", getInventory);
-  app.get("/api/balance", getUserBalance);
-  app.post("/api/purchase", purchaseChocolate);
-  app.post("/api/restock", restockChocolate);
-  app.post("/api/reset", resetMachine);
+  app.get("/inventory", getInventory);
+  app.get("/balance", getUserBalance);
+  app.post("/purchase", purchaseChocolate);
+  app.post("/restock", restockChocolate);
+  app.post("/reset", resetMachine);
 
   return app;
 }
