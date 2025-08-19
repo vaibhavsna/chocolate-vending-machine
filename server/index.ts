@@ -9,15 +9,28 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use((req, _res, next) => {
-    const ct = req.headers["content-type"] || "";
-    if (ct.includes("application/json") && typeof req.body === "string") {
-      try {
-        req.body = JSON.parse(req.body);
-      } catch {
-        console.error("Failed to parse JSON body", req.body);}
+    if (typeof req.body === "string") {
+      const s = req.body.trim();
+      if (s.startsWith("{") || s.startsWith("[")) {
+        try { req.body = JSON.parse(s); } catch { /* noop */ }
+      }
     }
     next();
   });
+ 
+  // Quick debug
+  app.post("/debug/echo", (req, res) => {
+    res.json({
+      path: req.path,
+      headers: req.headers,
+      body: req.body,
+      types: {
+        chocolateId: typeof req.body?.chocolateId,
+        amountPaid: typeof req.body?.amountPaid,
+      },
+    });
+  });
+ 
   app.get("/api/inventory", getInventory);
   app.get("/api/balance", getUserBalance);
   app.post("/api/purchase", purchaseChocolate);
