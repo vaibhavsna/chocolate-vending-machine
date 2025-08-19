@@ -5,6 +5,8 @@ import { getInventory, purchaseChocolate, restockChocolate, getUserBalance, rese
 
 export function createServer() {
   const app = express();
+  const router = express.Router();
+
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -31,11 +33,15 @@ export function createServer() {
     });
   });
  
-  app.get("/inventory", getInventory);
-  app.get("/balance", getUserBalance);
-  app.post("/purchase", purchaseChocolate);
-  app.post("/restock", restockChocolate);
-  app.post("/reset", resetMachine);
+  router.get("/inventory", getInventory);
+  router.get("/balance", getUserBalance);
+  router.post("/purchase", purchaseChocolate);
+  router.post("/restock", restockChocolate);
+  router.post("/reset", resetMachine);
+
+  // Mount for Netlify function base AND for local dev
+  app.use("/.netlify/functions/api", router);
+  app.use("/api", router);
 
   return app;
 }
