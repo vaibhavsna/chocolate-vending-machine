@@ -12,10 +12,13 @@ export function createServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.text({ type: "*/*" }));
   app.use((req, _res, next) => {
-    if (typeof req.body === "string") {
+    if (Buffer.isBuffer(req.body)) {
+      const s = req.body.toString("utf8");
+      try { req.body = JSON.parse(s); } catch { req.body = s; }
+    } else if (typeof req.body === "string") {
       const s = req.body.trim();
       if (s.startsWith("{") || s.startsWith("[")) {
-        try { req.body = JSON.parse(s); } catch { /* noop */ }
+        try { req.body = JSON.parse(s); } catch { /* leave as string */ }
       }
     }
     next();
