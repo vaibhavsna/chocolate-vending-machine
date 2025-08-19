@@ -25,15 +25,16 @@ export const getInventory: RequestHandler = async (req, res) => {
 
 export const purchaseChocolate: RequestHandler = async (req, res) => {
   try {
-    const { chocolateId, amountPaid } = req.body;
-    if (!chocolateId || typeof chocolateId !== 'number') {
+    const chocolateId = Number(req.body?.chocolateId);
+    const amountPaid  = Number(req.body?.amountPaid);
+    if (!Number.isInteger(chocolateId) || chocolateId <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Invalid chocolate ID'
       });
     }
 
-    if (!amountPaid || typeof amountPaid !== 'number' || amountPaid <= 0) {
+    if (!Number.isFinite(amountPaid) || amountPaid <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Invalid amount paid'
