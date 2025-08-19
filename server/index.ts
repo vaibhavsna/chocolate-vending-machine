@@ -10,6 +10,7 @@ export function createServer() {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(express.text({ type: "*/*" }));
   app.use((req, _res, next) => {
     if (typeof req.body === "string") {
       const s = req.body.trim();
