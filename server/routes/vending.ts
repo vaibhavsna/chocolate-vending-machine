@@ -65,9 +65,8 @@ export const purchaseChocolate: RequestHandler = async (req, res) => {
 
 export const restockChocolate: RequestHandler = async (req, res) => {
   try {
-    const { chocolateId } = req.body;
-
-    if (!chocolateId || typeof chocolateId !== 'number') {
+    const chocolateId = Number(req.body?.chocolateId);
+    if (!Number.isInteger(chocolateId) || chocolateId <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Invalid chocolate ID'
