@@ -25,39 +25,32 @@ export const getInventory: RequestHandler = async (req, res) => {
 
 export const purchaseChocolate: RequestHandler = async (req, res) => {
   try {
-    // const chocolateId = Number(req.body?.chocolateId);
-    // const amountPaid  = Number(req.body?.amountPaid);
-    // if (!Number.isInteger(chocolateId) || chocolateId <= 0) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: 'Invalid chocolate ID'
-    //   });
-    // }
-
-    // if (!Number.isFinite(amountPaid) || amountPaid <= 0) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: 'Invalid amount paid'
-    //   });
-    // }
-
-    // const result = await activeService.purchaseChocolate(chocolateId, amountPaid);
-
-    // if (result.success) {
-    //   res.json({
-    //     success: true,
-    //     data: result
-    //   });
-    // } else {
-    //   res.status(400).json({
-    //     success: false,
-    //     message: result.message
-    //   });
-    // }
-    return res.json({
-      sucess: true,
-      message: req.body
-    })
+    const chocolateId = Number(req.body?.chocolateId);
+    const amountPaid  = Number(req.body?.amountPaid);
+    if (!Number.isInteger(chocolateId) || chocolateId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid chocolate ID'
+      });
+    }
+    if (!Number.isFinite(amountPaid) || amountPaid <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid amount paid'
+      });
+    }
+    const result = await activeService.purchaseChocolate(chocolateId, amountPaid);
+    if (result.success) {
+      res.json({
+        success: true,
+        data: result
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: result.message
+      });
+    }
   } catch (error) {
     console.error('Error in purchaseChocolate:', error);
     res.status(500).json({
