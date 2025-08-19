@@ -16,8 +16,6 @@ A full-stack web application that simulates a chocolate vending machine. Users c
 - React 18 with TypeScript
 - Vite for build tooling
 - TailwindCSS for styling
-- Radix UI components
-- Sonner for toast notifications
 
 **Backend:**
 - Node.js with Express
